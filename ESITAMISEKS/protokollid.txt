@@ -1,0 +1,132 @@
+
+2018-10-19 23:16:13.418683
+Hindamislehti täidab kohtunik: RANNO RUMM
+
+HINDAMISLEHT NR: 1
+2018-10-19 23:16:13.418683
+Võistleja: JANE ALUVE
+Hinded: [7.0, 8.0, 3.0, 5.0, 8.0, 4.0, 3.0]
+Hinnete summa: 38.0
+Miinuseid kokku: 2
+Hinne kokku 36.0
+Hinnete keskmine: 5.1
+
+HINDAMISLEHT NR: 2
+2018-10-19 23:16:13.418683
+Võistleja: TRIINA TREI
+Hinded: [6.0]
+Hinnete summa: 6.0
+Miinuseid kokku: 0
+Hinne kokku 6.0
+Hinnete keskmine: 6.0
+
+HINDAMISLEHT NR: 3
+2018-10-19 23:16:13.418683
+Võistleja: KRISTIIN OJA
+Hinded: [8.0, 6.0]
+Hinnete summa: 14.0
+Miinuseid kokku: 0
+Hinne kokku 14.0
+Hinnete keskmine: 7.0
+
+HINDAMISLEHT NR: 4
+2018-10-19 23:16:13.418683
+Võistleja: MARI-LIIS SIIMON
+Hinded: [8.0, 6.0, 5.0, 8.0, 6.0, 8.0, 6.0]
+Hinnete summa: 47.0
+Miinuseid kokku: 0
+Hinne kokku 47.0
+Hinnete keskmine: 6.7
+
+HINDAMISLEHT NR: 5
+2018-10-19 23:16:13.418683
+Võistleja: RANNO RUMM
+Hinded: [8.0, 6.0, 5.0, 3.5, 4.0, 8.0, 6.0]
+Hinnete summa: 40.5
+Miinuseid kokku: 0
+Hinne kokku 40.5
+Hinnete keskmine: 5.8
+
+2018-10-19 23:21:53.753113
+Hindamislehti täidab kohtunik: KELRK
+
+2018-10-19 23:26:54.836468
+Hindamislehti täidab kohtunik: KLSD
+
+2018-10-19 23:27:53.043126
+Hindamislehti täidab kohtunik: KDLSF
+
+2018-10-19 23:30:31.179944
+Hindamislehti täidab kohtunik: LDKJFSD
+
+2018-10-19 23:31:00.811715
+Hindamislehti täidab kohtunik: LDKJSFS
+
+2018-10-19 23:32:09.366285
+Hindamislehti täidab kohtunik: SÖDFJS
+
+2018-10-19 23:32:44.796369
+Hindamislehti täidab kohtunik: RANNO RUMM
+
+2018-10-19 23:41:14.491352
+Hindamislehti täidab kohtunik: KSLDKS
+
+2018-10-19 23:42:54.464206
+Hindamislehti täidab kohtunik: Minu Nimi
+
+2018-10-19 23:44:13.227068
+Hindamislehti täidab kohtunik: DS;FJSFSJ
+
+2018-10-19 23:46:24.982997
+Hindamislehti täidab kohtunik: LDSJFSKLFJS PSDOFJSOFJS
+
+2018-10-19 23:48:04.044308
+Hindamislehti täidab kohtunik: LDSKFJSDF
+
+2018-10-19 23:49:11.133015
+Hindamislehti täidab kohtunik: D;OKSFS
+
+2018-10-25 16:05:45.024835
+Hindamislehti täidab kohtunik: KERLI
+
+HINDAMISLEHT NR: 1
+2018-10-25 16:05:45.024835
+Võistleja: JANE ALUVE
+Hinded: [6.0, 3.5, 8.0, 8.0, 6.0, 5.0, 6.0]
+Hinnete summa: 42.5
+Miinuseid kokku: 1
+Hinne kokku 41.5
+Hinnete keskmine: 5.9
+
+HINDAMISLEHT NR: 2
+2018-10-25 16:05:45.024835
+Võistleja: TRIINA TREI
+Hinded: [0.0]
+Hinnete summa: 0.0
+Miinuseid kokku: 0
+Hinne kokku 0.0
+Hinnete keskmine: 0.0
+
+HINDAMISLEHT NR: 3
+2018-10-25 16:05:45.024835
+Võistleja: KRISTIIN OJA
+Hinded: [0.0]
+Hinnete summa: 0.0
+Miinuseid kokku: 0
+Hinne kokku 0.0
+Hinnete keskmine: 0.0
+
+HINDAMISLEHT NR: 4
+2018-10-25 16:05:45.024835
+Võistleja: MARI-LIIS SIIMON
+Hinded: [3.5, 3.0, 3.0, 8.0, 8.0, 6.0, 8.0]
+Hinnete summa: 39.5
+Miinuseid kokku: 0
+Hinne kokku 39.5
+Hinnete keskmine: 5.6
+
+2018-10-25 16:11:24.579586
+Hindamislehti täidab kohtunik: LKJFDSFKF
+
+2018-10-26 15:59:45.045855
+Hindamislehti täidab kohtunik: KO

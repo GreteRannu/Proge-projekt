@@ -1,0 +1,47 @@
+Programm: Lohesurfi vastiili hindavate kohtunike hindamislehed ja protokoll
+
+Autor: Kerli Otti
+
+Kirjutasin antud programmi reaalsest vajadusest.
+Programm on edasiarendus Programmeerimine I lõputööst.
+Lohesurfi võistlust hinnates peab kohtunik jälgima suure tuule ja vihma käes võistlejat ning suutma kiirelt kirja panema nähtud soorituse (triki) ja selle hinde.
+
+Iga kohtuniku hindamisest tuleb säilitada protokoll.
+
+Programm:
+a)  Registreerib hindamislehti täitva kohtuniku nime ja aja, mil ta võistlejat hindab.
+
+b)  Jälgib reeglites lubatud soorituste arvu ühe võistleja kohta (max 7).
+
+c)  Avab nuppudega hindamislehe, kus iga trikk (nupu nimi) on võetud failist.
+    Iga nupp on seotud failist saadud väärtusega (rida-kahekordne järjend-sõnastik).
+    Kui nuppu vajutatakse, siis lisatakse hindeks vastava triki väärtus e punktisumma.
+
+d)  Võtab osalejate nimed failist ja laseb hinnata a) lubatud soorituste arvuni  või b) kui vajutatakse nuppu "VÄLJU LEHELT" (st trikke rohkem ei sooritatud ja minnakse järgmise võistleja juurde) Eraldi nupuna on "LISA -1", millega saab võtta punkte maha, kui sooritus ei olnud väärtusele kohane. Miinused arvutatakse hiljem maha punktisummast.
+
+e)  Kirjutab kohtuniku hindamisest protokolli iga võistleja kohta (automaatne aeg. Veel nimi, soorituste hinded, miinused, punktisumma kokku ja soorituste keskmine hinne jm.
+
+f)  Kirjutab võistleja lõpliku punktisumma eraldi faili. Sellesse faili peaksid salvestuma ka teiste kohtunike poolt saadud tulemused ja mida saab tulevikus kasutada lõplike võistlustulemuste genereerimisel( seda osa selles programmise ei ole veel :) ) 
+
+Vajalikud failid:
+1. Nuppudele nime ja väärtuse jaoks kuni 12 reaga fail, milles sisaldub ühel real triki nimi ja arvuline väärtus (float) eraldatud tühikuga (trikid.txt)
+
+2. Osalejate registreerimisleht e võistlejate nimedega fail (võistlejad.txt)
+
+3. Antud hinnete kokkuvõtted e protokoll (protokoll.txt)
+
+4. Tulemuste fail, kuhu salvestatakse vaid võistleja nimi ja punktisumma (tulemused.txt)
+
+5. Graafiline programm (easygui.py)
+
+
+Programmi käiku testisin kõikides variatsioonidega. Juhul kui ei tehta ühtegi trikki, siis kohtunik lahkub lehelt ja see sisestab tulemusteks nullid.
+
+Kui sooritatakse vähem trikke kui lubatud, siis kohtunik lahkub lehelt ja arvesse lähevad vais need trikid, mis olid sooritatud.
+
+
+
+
+
+
+
