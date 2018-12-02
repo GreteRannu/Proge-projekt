@@ -1,9 +1,11 @@
 
 from easygui import *
 from tkinter import *
-from tkinter import ttk # platvormi ühise stiili saamiseks
-from tkinter import messagebox
+#from tkinter import ttk # platvormi ühise stiili saamiseks
+#from tkinter import messagebox
 from datetime import datetime
+import tkinter as tk
+from PIL import ImageTk, Image
 import time
 
 def failist_sonastik(f):  #võtab triki nime ja selle hinde failist
@@ -24,12 +26,10 @@ def nupp(nupp, voistleja):
     print("nupp", nupp)
     if voistleja == "a":
         a.append(float(nupp))
-        
         lisa_katse("a")
         print("a", a,"teine", teine)
     if voistleja == "b":
         teine.append(float(nupp))
-        
         print("teine", teine, "a", a)
         lisa_katse("b")
             
@@ -40,9 +40,9 @@ def lisa_katse(kellele):# def loendab katseid kuni 7-meni ja
  #           naita_punkte(a) #ERRORIST VABAKS ENNE N"ITAB PUNKTID siis l]petab
         for el in a:
             "\n".join
-            Label(win, text = len(a)). grid(row = 6, column = 0)
+            Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0)
             #hetkel punkte
-        Label(win, text = sum(a)) .grid(row = 8, column = 0)
+        Label(win, text = sum(a), foreground="white", background="black") .grid(row = 8, column = 0)
         A=katseidA.count(1)
         B=katseidB.count(1)
         if A>=7:
@@ -53,9 +53,9 @@ def lisa_katse(kellele):# def loendab katseid kuni 7-meni ja
  #           naita_punkte(teine) #ERRORIST VABAKS ENNE N"ITAB PUNKTID siis l]petab
         for el in teine:
             "\n".join
-            Label(win, text = len(teine)). grid(row = 6, column = 4)
+            Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4)
             #Hetkel punkte
-        Label(win, text = sum(teine)) .grid(row = 8, column = 4)
+        Label(win, text = sum(teine), foreground="white", background="black") .grid(row = 8, column = 4)
         A=katseidA.count(1)
         B=katseidB.count(1)
         if B>=7:
@@ -69,11 +69,9 @@ def uusRound():
     win = Tk()
     win.geometry("600x70") #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
     win.title("HINDAMISLEHT")
-    
-    Label(win, text="JÄRGMINE ROUND", font=("hevetica", 50)).grid(row=2)   # lõpetab hindamislehe täitmise 
-        
-    
-    
+    Label(win, text="JÄRGMINE ROUND", font=("hevetica", 50)).grid(column=3, row=2, pady=10, padx=10)   # lõpetab hindamislehe täitmise
+
+       
     
 def update():
     uusRound()
@@ -87,24 +85,37 @@ def update():
     katseidB=[]
     global miinus
     miinus=[]
-
     global i
     i=0 
     global hinded
     hinded=[]
     global miinused
     miinused=[]
+    global img2
+    global img1
+##    global võistleja
+##    global v
     
-    võistlejaA = "Mari"
-    võistlejaB = "Kalle"
+    võistlejaA = võistleja.pop(v)
+    võistlejaB = võistleja.pop(v)
+
+##    
+##    võistlejaA.replace(võistlejaA, võistleja.pop(v))
+##    võistlejaB.replace(võistlejaB, võistleja.pop(v))
     
-    Label(win, text=võistlejaA).grid(column= 2, row=1)
-    Label(win, text=võistlejaB).grid(column=7, row=1 )
-    print(a, teine)
-    Label(win, text = len(a)). grid(row = 6, column = 0)
-    Label(win, text = sum(a)).grid(row = 8, column = 0)
-    Label(win, text = len(teine)). grid(row = 6, column = 4)
-    Label(win, text = sum(teine)) .grid(row = 8, column = 4)
+    Label(win, text=võistlejaA, foreground="white", background="black").grid(column= 1, row=2)
+    Label(win, text=võistlejaB, foreground="white", background="black").grid(column=6, row=2 )
+    
+    img1 = ImageTk.PhotoImage(Image.open("pilt3.png"))
+    img2 = ImageTk.PhotoImage(Image.open("pilt4.png"))
+    Label(win, text="PILT", image=img1, height= 150, width= 150).grid(column=1, row=0, pady=(20, 0))
+    Label(win, text="PILT", image=img2, height= 150, width= 150).grid(column=6, row=0, pady=(20, 0))
+    
+    
+    Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0)
+    Label(win, text = sum(a), foreground="white", background="black").grid(row = 8, column = 0)
+    Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4)
+    Label(win, text = sum(teine), foreground="white", background="black") .grid(row = 8, column = 4)
  
     
     for el in range(len(c)):
@@ -141,13 +152,7 @@ while kohtunik == None or kohtunik == "":
     kohtunik = enterbox(msg, title)
 else:
     msgbox(kohtunik + " , olete registreeritud käesoleva hindamislehe kohtunikuks.")
-    
-print("Hindamislehte täidab kohtunik: " + kohtunik)
 
-protokoll = open("protokollid.txt", "w", encoding="UTF-8")  #Sisestab protokolli faili kohtuniku nime
-protokoll.write("\n" + str(kuupäev_kellaeg) + "\n")
-protokoll.write(("Hindamislehti täidab kohtunik: " + kohtunik) + "\n")
-protokoll.close()
 
 #....................................................................................
 b=(failist_sonastik(f)) #sõnastik trikkide ja väärtustega
@@ -155,8 +160,16 @@ b=(failist_sonastik(f)) #sõnastik trikkide ja väärtustega
 c=[]                    #list ainult trikkide nimedest, 
 for element in b:       #mis lisatakse nuppude text= ..... väärtusteks
     c.append(element)
+#
+v=0
+võistleja = [] #võistlejate list
+for read in f:
+    võistlejad = read.upper()#loeb registreerinud võistlejate failist esimese võistleja nime. Peale tsükli läbimist järgmise võistleja.
+    võistleja.append(võistlejad)
+    print("Võistlejad", võistlejad)
 
-
+võistlejaA = võistleja.pop(v)
+võistlejaB = võistleja.pop(v) 
 #....................................................................................
 """12 triki nime ja väärtusega hindamispaneel
 NUPUD EKRAANILE, mida kasutatakse võistluse ajal kohtuniku poolt"""
@@ -172,53 +185,57 @@ nr = 1 #Hindamislehed on nummerdatud
 hinded=[]
 miinused=[]
 
-võistleja = [] #võistlejate list
+
 
 
 win = Tk()
 win.geometry("{0}x{1}+0+0".format(win.winfo_screenwidth(), win.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
 win.title("HINDAMISLEHT")
-win.configure(background='white')
+win.configure(background='black')
 
 h=3 #saab muuta nuppude kõrgus
 i=0 #saab nuppude tekstid võtta järjendist c
 r=20
 
 
-img = PhotoImage(file="EsimeneA.gif")
 
-Label(win, text="PILT", image=img, height= 150, width= 150).grid(column=1, row=0)
-Label(win, text="PILT", image=img, height= 150, width= 150).grid(column=6, row=0)
-
-Label(win, text="VÕISTLEJA A:").grid(column = 1, row=1)
-Label(win, text="Tehtud katseid A:").grid(row = 5, column = 0)
-Label(win, text="Hetkel pukte A:").grid(row = 7, column = 0)
+#img = PhotoImage(file="EsimeneA.gif")
+img1 = ImageTk.PhotoImage(Image.open("./pilt1.png"))
+img2 = ImageTk.PhotoImage(Image.open("./pilt2.png"))
+Label(win, text="PILT", image=img1, height= 150, width= 150).grid(column=1, row=0, pady=(20, 0))
+Label(win, text="PILT", image=img2, height= 150, width= 150).grid(column=6, row=0, pady=(20, 0))
 
 
-Label(win, text="VÕISTLEJA B:", height= h).grid(column=6, row=1)
-Label(win, text="Tehtud katseid B:").grid(row = 5, column = 4)
-Label(win, text="Hetkel pukte B:").grid(row = 7, column = 4)
+Label(win, text="VÕISTLEJA A:", foreground="white", background="black").grid(column = 1, row=1, pady=(20, 0))
+Label(win, text="Tehtud katseid A:", foreground="white", background="black").grid(row = 5, column = 0)
+Label(win, text="Hetkel pukte A:", foreground="white", background="black").grid(row = 7, column = 0)
 
-Label(win, text="Hindav kohtunik:").grid(row=15, column=0) #Kohtunik
-Label(win, text=kohtunik).grid(row=16, column=0)
+Label(win, text="VÕISTLEJA B:", foreground="white", background="black").grid(column=6, row=1, pady=(20, 0))
+Label(win, text="Tehtud katseid B:", height= h, width= 20, foreground="white", background="black").grid(row = 5, column = 4)
+Label(win, text="Hetkel pukte B:", height= h, width= 20, foreground="white", background="black").grid(row = 7, column = 4)
+
+
+Label(win, text="KOHTUNIK:", foreground="white", background="black").grid(row=15, column=0, pady=(50, 0)) #Kohtunik
+Label(win, text=kohtunik, foreground="white", background="black").grid(row=16, column=0)
+
 
 välju= Button(win, text='KATKESTAS', height= h-1, width= 10) #Võistleja A
-välju.grid(row=3, column=0)
+välju.grid(row=3, column=0, pady=(2, 2), padx=(2, 2))
 min = Button(win, text=' LISA -1 ', height= h-1, width= 10)
-min.grid(row=4, column=0)
+min.grid(row=4, column=0, pady=(2, 2), padx=(2, 2))
 
 välju= Button(win, text='KATKESTAS', height= h-1, width= 10)# Võistleja B
-välju.grid(row=3, column=4)
+välju.grid(row=3, column=4, pady=(2, 2), padx=(2, 2))
 min = Button(win, text=' LISA -1 ', height= h-1, width= 10)
-min.grid(row=4, column=4)
+min.grid(row=4, column=4, pady=(2, 2), padx=(2, 2))
  
-#Label(win, text=võistlejaA).grid(row=1)
-Label(win, text = len(a)). grid(row = 6, column = 0) #Võistleja A
-Label(win, text = sum(a)).grid(row = 8, column = 0)
+Label(win, text=võistlejaA, foreground="white", background="black").grid(column= 1, row=2)
+Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0) #Võistleja A
+Label(win, text = sum(a), foreground="white", background="black").grid(row = 8, column = 0)
 
-#Label(win, text= võistlejaB).grid(column=7, row=1)
-Label(win, text = len(teine)). grid(row = 6, column = 4) #Võistleja B
-Label(win, text = sum(teine)).grid(row = 8, column = 4)
+Label(win, text= võistlejaB, foreground="white", background="black").grid(column=6, row=2)
+Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4) #Võistleja B
+Label(win, text = sum(teine), foreground="white", background="black").grid(row = 8, column = 4)
 
 
 sõnastikA = {}   
@@ -252,13 +269,13 @@ for i in range(ridu):
         print(nuppu)
         sõnastikA[c[el]] = Button(win, text=c[el], height=h, width= r)
         sõnastikA[c[el]].configure(command= lambda: nupp(nuppu, "a"))
-        sõnastikA[c[el]].grid(column=j+ 1, row= i+5)
+        sõnastikA[c[el]].grid(column=j+ 1, row= i+5, pady=(2, 2), padx=(2, 2))
         print("EL -", el, "EL-1", el-1)
         
         sõnastikB[c[el]] = Button(win, text=c[el], height=h, width= r)
         print(sõnastikB[c[el]])
         sõnastikB[c[el]].configure(command= lambda: nupp(nuppu, "b"))
-        sõnastikB[c[el]].grid(column=j+ 6, row= i+5)
+        sõnastikB[c[el]].grid(column=j+ 6, row= i+5, pady=(2, 2), padx=(2, 2))
         #print(i, j)
         j +=1
         el+=1
@@ -268,15 +285,14 @@ min.configure(command=miinus1)
 
 print("A-", sõnastikB, "B-",sõnastikA)
 
-for read in f:
-    võistlejad = read.upper()#loeb registreerinud võistlejate failist esimese võistleja nime. Peale tsükli läbimist järgmise võistleja.
-    võistleja.append(võistlejad)
-    print("Võistlejad", võistlejad)
-
-võistlejaA = võistleja[0]
-võistlejaB = võistleja[0+1] 
 
 
+print("Hindamislehte täidab kohtunik: " + kohtunik)
+
+protokoll = open("protokollid.txt", "w", encoding="UTF-8")  #Sisestab protokolli faili kohtuniku nime
+protokoll.write("\n" + str(kuupäev_kellaeg) + "\n")
+protokoll.write(("Hindamislehti täidab kohtunik: " + kohtunik) + "\n")
+protokoll.close()
         
  
 ##summa = sum(hinded[i])
@@ -307,5 +323,5 @@ võistlejaB = võistleja[0+1]
 ##i += 1
 ####nr += 1
 
-win.mainloop(0)
+win.mainloop( )
 
