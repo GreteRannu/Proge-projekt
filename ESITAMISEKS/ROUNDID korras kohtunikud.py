@@ -20,6 +20,7 @@ def failist_sonastik(f):  #võtab triki nime ja selle hinde failist
     print(vaartus)
     return vaartus
 
+
 def muuda_katseid():
     global katseidA
     global katseidB
@@ -39,12 +40,14 @@ def muuda_katseid():
     else:
         Label(win, text="Lubatud: "+str(n_katseid), foreground="white", background="black").grid(row=10, column=0, pady=(50, 0))
     n_katseid = int(n_katseid)
-    
+ 
+ 
 def set_kohtunik():
     global kohtunik
     kohtunik = kohtunik_sisend.get()
     set.destroy()
-    
+ 
+ 
 def nupp(nupp, voistleja):
     print("nupp", nupp)
     if voistleja == "a":
@@ -84,6 +87,8 @@ def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
         print("A=", a, "teine=", teine)
  #       välju1()
         update()
+        
+        
 def uusRound():
     round = Tk()
     round.geometry("{0}x{1}".format(round.winfo_screenwidth(), round.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
@@ -92,32 +97,44 @@ def uusRound():
     Label(round, text="# uus voor", font=("hevetica", 50), foreground="white", background="black").grid(column=6, row=2, pady=100, padx=550)
     round_nupp = Button(round, text='ALUSTA', height=2, width= 20, command = lambda: round.destroy()).grid(column=6, row=3, pady=0, padx=0)
 
+
 def viimaneRound():
     viimane = Tk()
     viimane.geometry("{0}x{1}".format(viimane.winfo_screenwidth(), viimane.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
     viimane.title("Uus voor")
     viimane.configure(background='black')
-    Label(viimane, text="# roundi lõpp", font=("hevetica", 50), foreground="white", background="black").grid(column=6, row=2, pady=100, padx=550)
+    Label(viimane, text="# roundi lõpp #", font=("hevetica", 50), foreground="white", background="black").grid(column=6, row=2, pady=100, padx=550)
+    
     #tuleks täpsustada, et mis peaks täpselt juhtuma - kas on olemas uue roundi süsteem või kuidas väljuda kogu programmist.
+    #!!!!!!!!!!!!!!!!!!!!!!!!!! Siin tuleks teha veel I ROUND kohta protokoll :)
+    # !!!!!!!!!!!!  lambdasse tuleks lisada fail, kus on võitjad -> võistlejad_failist("võistlejad.txt", viimane)
     
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!Enne destroyd tuleks veel teha protokoll :)
+    viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: võistlejad_failist("võistlejad.txt", viimane)).grid(column=6, row=3, pady=0, padx=0)
+
+
+def võistlejad_failist(fail, viimane):
+    global võistleja
+    global v
+    f = open(fail, "r", encoding="UTF-8")   #registreerinud võistlejate nimekiri failis#
+    v=0
+    võistleja = [] #võistlejate list
+    for read in f:
+        võistlejad = read.upper().strip()#loeb registreerinud võistlejate failist esimese võistleja nime. Peale tsükli läbimist järgmise võistleja.
+        võistleja.append(võistlejad)
+        print("Võistlejad", võistlejad)
+    f.close()
+    update()
+    viimane.destroy()
     
-    viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: viimane.destroy()).grid(column=6, row=3, pady=0, padx=0)
-    viimase_round_nupp2 = Button(viimane, text='Välju kogu programmist', height=2, width= 20, command = lambda: viimane.destroy() and win.destroy()).grid(column=6, row=4, pady=5, padx=0)
-    #
-    
-    
-    
+       
     
 def update():
-    
-    uusRound()
     global võistlejaA, võistlejaB
-    global võistlejad
+    global võistleja
     global a
-    a=[] #Siia kogutakse võistlejale antud hinded selle kohtuniku pool
+    a=[]             #VõistlejaA hinded
     global teine
-    teine=[]#Siia kogutakse TEISE võistlejale antud hinded selle kohtuniku pool    
+    teine=[]         #VõistlejaB hinded   
     global katseidA
     katseidA=[]
     global katseidB
@@ -132,13 +149,11 @@ def update():
     miinused=[]
     global img2
     global img1
-    
-    
-    #millegip'rast ei toimi :(
-    if len(võistlejaA)<1 or len(võistlejaB) < 1:
-        return viimaneRound()
 
+    if len(võistleja)<=0:
+        return viimaneRound() # kui osalejad otsas tuleb uus round
     else:
+        uusRound()
         võistlejaA = võistleja.pop(v)
         võistlejaB = võistleja.pop(v)
     
@@ -155,20 +170,17 @@ def update():
     Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4)
     Label(win, text = sum(teine), foreground="white", background="black") .grid(row = 8, column = 4)
  
-    
     for el in range(len(c)):
         sõnastikA[c[el]].configure(command = lambda nuppu=b[c[el]]:nupp(nuppu, "a"))
         sõnastikB[c[el]].configure(command = lambda nuppu=b[c[el]]:nupp(nuppu, "b"))
 
     
     
-def välju1(): # rakendub kui katsete arv on täis
-    if a == []: # kui pole trikke, siis pannakse kõik 0
+def välju1():                     # rakendub kui katsete arv on täis
+    if a == []:                   # kui pole trikke, siis pannakse kõik 0
         trikke()
-    hinded.append(a)#lisab saadud hinded hined[] listi
+    hinded.append(a)              #lisab saadud hinded hined[] listi
     miinused.append(sum(miinus))
-          
-
 def miinus1():
     miinus.append(int(1))
 def trikke():
@@ -181,7 +193,7 @@ ____________________________________________  Vaikeväärtused | kuupäev | kats
 
 kuupäev_kellaeg = datetime.today()
 kohtunik = "Registreerimata kohtunik"               #vaikeväärtus kohtunikul
-n_katseid = 3                                       #vaikeväärtus katsete arvul
+n_katseid = 1                                      #vaikeväärtus katsete arvul
 
 
 
@@ -214,8 +226,7 @@ set.mainloop( )
 """
 ____________________________________________________  Võistlejate nimekiri | failist _____________________________________________________________
 """
-
-
+   
     
 f = open("võistlejad.txt", "r", encoding="UTF-8")   #registreerinud võistlejate nimekiri failis#
 v=0
@@ -226,17 +237,13 @@ for read in f:
     print("Võistlejad", võistlejad)
 f.close()
 
-
-
 võistlejaA = võistleja.pop(v)
 võistlejaB = võistleja.pop(v)
-
 
 
 """
 ______________________________________  Põhiprogrammi seadistamine | trikid failist, vaikeväärtused ___________________________________________________
 """
-
 
 
 b=(failist_sonastik(f)) #sõnastik trikkide ja väärtustega
@@ -258,11 +265,11 @@ miinused=[]
 h=3                    #nuppude kõrgus
 i=0                    #index listist lugemiseks (nt c)
 r=20                   #nuppude laius
+
 """
 ____________________________________________ 1. aken  _____  Aken avaneb siin   ________________________________________
 """
-       
-        
+             
 win = Tk()        
 win.geometry("{0}x{1}+0+0".format(win.winfo_screenwidth(), win.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
 win.title("HINDAMISLEHT")
