@@ -21,18 +21,24 @@ def failist_sonastik(f):  #võtab triki nime ja selle hinde failist
     return vaartus
 
 def muuda_katseid():
+    global katseidA
+    global katseidB
     global n_katseid
+    if len(katseidA) > 0 or len(katseidB) > 0:
+        return msgbox("""Kahjuks ei saa vooru toimumis ajal katsete arvu muuta!
+                      Muuda katsete arv peale vooru lõppu!""")
     msg ="Muuda katsete arvu:"
     title = "ScoreFreestyle"
     n_katseid = enterbox(msg, title).upper() 
     while n_katseid == None or n_katseid == "":
         msgbox("Te ei sisetanud midagi!")
-        n_katseid = enterbox(msg, title) 
+        n_katseid = int(enterbox(msg, title))
     while n_katseid.isnumeric() == False:
         msgbox("Sisestus peab olema number!")
-        n_katseid = enterbox(msg, title)
+        n_katseid = int(enterbox(msg, title))
     else:
         Label(win, text="Lubatud: "+str(n_katseid), foreground="white", background="black").grid(row=10, column=0, pady=(50, 0))
+    n_katseid = int(n_katseid)
     
 def set_kohtunik():
     global kohtunik
@@ -50,7 +56,7 @@ def nupp(nupp, voistleja):
         print("teine", teine, "a", a)
         lisa_katse("b")           
             
-def lisa_katse(kellele):# def loendab katseid kuni 7-meni ja
+def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
     if kellele == "a":
         katseidA.append(1)
         for el in a:
@@ -60,7 +66,7 @@ def lisa_katse(kellele):# def loendab katseid kuni 7-meni ja
         Label(win, text = sum(a), foreground="white", background="black") .grid(row = 8, column = 0)
         A=katseidA.count(1)
         B=katseidB.count(1)
-        if A>=7:
+        if A>=n_katseid:
             for el in range(len(c)):
                 sõnastikA[c[el]].configure(command= lambda :None)
     if kellele == "b":
@@ -71,10 +77,10 @@ def lisa_katse(kellele):# def loendab katseid kuni 7-meni ja
         Label(win, text = sum(teine), foreground="white", background="black") .grid(row = 8, column = 4)
         A=katseidA.count(1)
         B=katseidB.count(1)
-        if B>=7:
+        if B>=n_katseid:
             for el in range(len(c)):
                 sõnastikB[c[el]].configure(command= lambda: None)
-    if A>=7 and B>=7:
+    if A>=n_katseid and B>=n_katseid:
         print("A=", a, "teine=", teine)
  #       välju1()
         update()
