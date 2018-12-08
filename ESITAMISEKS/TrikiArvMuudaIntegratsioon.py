@@ -85,14 +85,35 @@ def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
  #       välju1()
         update()
 def uusRound():
-    win = Tk()
-    win.geometry("600x70") #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
-    win.title("HINDAMISLEHT")
-    Label(win, text="JÄRGMINE ROUND", font=("hevetica", 50)).grid(column=3, row=2, pady=10, padx=10)   # lõpetab hindamislehe täitmise
+    round = Tk()
+    round.geometry("{0}x{1}".format(round.winfo_screenwidth(), round.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
+    round.title("Uus voor")
+    round.configure(background='black')
+    Label(round, text="# uus voor", font=("hevetica", 50), foreground="white", background="black").grid(column=6, row=2, pady=100, padx=550)
+    round_nupp = Button(round, text='ALUSTA', height=2, width= 20, command = lambda: round.destroy()).grid(column=6, row=3, pady=0, padx=0)
+
+def viimaneRound():
+    viimane = Tk()
+    viimane.geometry("{0}x{1}".format(viimane.winfo_screenwidth(), viimane.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
+    viimane.title("Uus voor")
+    viimane.configure(background='black')
+    Label(viimane, text="# roundi lõpp", font=("hevetica", 50), foreground="white", background="black").grid(column=6, row=2, pady=100, padx=550)
+    #tuleks täpsustada, et mis peaks täpselt juhtuma - kas on olemas uue roundi süsteem või kuidas väljuda kogu programmist.
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!Enne destroyd tuleks veel teha protokoll :)
+    
+    viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: viimane.destroy()).grid(column=6, row=3, pady=0, padx=0)
+    viimase_round_nupp2 = Button(viimane, text='Välju kogu programmist', height=2, width= 20, command = lambda: viimane.destroy() and win.destroy()).grid(column=6, row=4, pady=5, padx=0)
+    #
+    
+    
+    
     
 def update():
+    
     uusRound()
     global võistlejaA, võistlejaB
+    global võistlejad
     global a
     a=[] #Siia kogutakse võistlejale antud hinded selle kohtuniku pool
     global teine
@@ -111,9 +132,15 @@ def update():
     miinused=[]
     global img2
     global img1
+    
+    
+    #millegip'rast ei toimi :(
+    if len(võistlejaA)<1 or len(võistlejaB) < 1:
+        return viimaneRound()
 
-    võistlejaA = võistleja.pop(v)
-    võistlejaB = võistleja.pop(v)
+    else:
+        võistlejaA = võistleja.pop(v)
+        võistlejaB = võistleja.pop(v)
     
     A=Label(win, text=võistlejaA, foreground="white", background="black", width= 20).grid(column= 1, row=2)
     B=Label(win, text=võistlejaB, foreground="white", background="black", width= 20).grid(column=6, row=2 )
@@ -154,7 +181,7 @@ ____________________________________________  Vaikeväärtused | kuupäev | kats
 
 kuupäev_kellaeg = datetime.today()
 kohtunik = "Registreerimata kohtunik"               #vaikeväärtus kohtunikul
-n_katseid = 7                                       #vaikeväärtus katsete arvul
+n_katseid = 3                                       #vaikeväärtus katsete arvul
 
 
 
@@ -198,6 +225,8 @@ for read in f:
     võistleja.append(võistlejad)
     print("Võistlejad", võistlejad)
 f.close()
+
+
 
 võistlejaA = võistleja.pop(v)
 võistlejaB = võistleja.pop(v)
