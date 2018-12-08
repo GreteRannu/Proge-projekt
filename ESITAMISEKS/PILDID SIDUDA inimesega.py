@@ -75,6 +75,7 @@ def uusRound():
     
 def update():
     uusRound()
+    global võistlejaA, võistlejaB
     global a
     a=[] #Siia kogutakse võistlejale antud hinded selle kohtuniku pool
     global teine
@@ -93,23 +94,20 @@ def update():
     miinused=[]
     global img2
     global img1
-##    global võistleja
-##    global v
+    võistlejaA.replace(str(võistlejaA), "              ")
+    võistlejaB.replace(str(võistlejaB), "               ")
     
+
     võistlejaA = võistleja.pop(v)
     võistlejaB = võistleja.pop(v)
+    
+    A=Label(win, text=võistlejaA, foreground="white", background="black", width= 20).grid(column= 1, row=2)
+    B=Label(win, text=võistlejaB, foreground="white", background="black", width= 20).grid(column=6, row=2 )
 
-##    
-##    võistlejaA.replace(võistlejaA, võistleja.pop(v))
-##    võistlejaB.replace(võistlejaB, võistleja.pop(v))
-    
-    Label(win, text=võistlejaA, foreground="white", background="black").grid(column= 1, row=2)
-    Label(win, text=võistlejaB, foreground="white", background="black").grid(column=6, row=2 )
-    
-    img1 = ImageTk.PhotoImage(Image.open("pilt3.png"))
-    img2 = ImageTk.PhotoImage(Image.open("pilt4.png"))
-    Label(win, text="PILT", image=img1, height= 150, width= 150).grid(column=1, row=0, pady=(20, 0))
-    Label(win, text="PILT", image=img2, height= 150, width= 150).grid(column=6, row=0, pady=(20, 0))
+    img1 = ImageTk.PhotoImage(Image.open("./pildid/"+võistlejaA+".png"))
+    img2 = ImageTk.PhotoImage(Image.open("./pildid/"+võistlejaB+".png"))
+    Label(win, text="PILT", image=img1, height= 150, width= 150, background="black").grid(column=1, row=0, pady=(20, 0))
+    Label(win, text="PILT", image=img2, height= 150, width= 150, background="black").grid(column=6, row=0, pady=(20, 0))
     
     
     Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0)
@@ -119,9 +117,9 @@ def update():
  
     
     for el in range(len(c)):
-        sõnastikA[c[el]].configure(command= lambda: nupp(el-1, "a"))
-        sõnastikB[c[el]].configure(command= lambda: nupp(el-1, "b"))
-        
+        sõnastikA[c[el]].configure(command = lambda nuppu=b[c[el]]:nupp(nuppu, "a"))
+        sõnastikB[c[el]].configure(command = lambda nuppu=b[c[el]]:nupp(nuppu, "b"))
+
     
     
 def välju1(): # rakendub kui katsete arv on täis
@@ -164,12 +162,13 @@ for element in b:       #mis lisatakse nuppude text= ..... väärtusteks
 v=0
 võistleja = [] #võistlejate list
 for read in f:
-    võistlejad = read.upper()#loeb registreerinud võistlejate failist esimese võistleja nime. Peale tsükli läbimist järgmise võistleja.
+    võistlejad = read.upper().strip()#loeb registreerinud võistlejate failist esimese võistleja nime. Peale tsükli läbimist järgmise võistleja.
     võistleja.append(võistlejad)
     print("Võistlejad", võistlejad)
 
 võistlejaA = võistleja.pop(v)
-võistlejaB = võistleja.pop(v) 
+võistlejaB = võistleja.pop(v)
+
 #....................................................................................
 """12 triki nime ja väärtusega hindamispaneel
 NUPUD EKRAANILE, mida kasutatakse võistluse ajal kohtuniku poolt"""
@@ -185,9 +184,6 @@ nr = 1 #Hindamislehed on nummerdatud
 hinded=[]
 miinused=[]
 
-
-
-
 win = Tk()
 win.geometry("{0}x{1}+0+0".format(win.winfo_screenwidth(), win.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
 win.title("HINDAMISLEHT")
@@ -195,15 +191,12 @@ win.configure(background='black')
 
 h=3 #saab muuta nuppude kõrgus
 i=0 #saab nuppude tekstid võtta järjendist c
-r=20
+r=20 #korgus
 
-
-
-#img = PhotoImage(file="EsimeneA.gif")
-img1 = ImageTk.PhotoImage(Image.open("./pilt1.png"))
-img2 = ImageTk.PhotoImage(Image.open("./pilt2.png"))
-Label(win, text="PILT", image=img1, height= 150, width= 150).grid(column=1, row=0, pady=(20, 0))
-Label(win, text="PILT", image=img2, height= 150, width= 150).grid(column=6, row=0, pady=(20, 0))
+img1 = ImageTk.PhotoImage(Image.open("./pildid/"+võistlejaA+".png"))
+img2 = ImageTk.PhotoImage(Image.open("./pildid/"+võistlejaB+".png"))
+Label(win, text="PILT", image=img1, height= 150, width= 150, background="black").grid(column=1, row=0, pady=(20, 0))
+Label(win, text="PILT", image=img2, height= 150, width= 150, background="black").grid(column=6, row=0, pady=(20, 0))
 
 
 Label(win, text="VÕISTLEJA A:", foreground="white", background="black").grid(column = 1, row=1, pady=(20, 0))
@@ -229,11 +222,11 @@ välju.grid(row=3, column=4, pady=(2, 2), padx=(2, 2))
 min = Button(win, text=' LISA -1 ', height= h-1, width= 10)
 min.grid(row=4, column=4, pady=(2, 2), padx=(2, 2))
  
-Label(win, text=võistlejaA, foreground="white", background="black").grid(column= 1, row=2)
+A=Label(win, text=võistlejaA, foreground="white", background="black", width= 20).grid(column= 1, row=2)
 Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0) #Võistleja A
 Label(win, text = sum(a), foreground="white", background="black").grid(row = 8, column = 0)
 
-Label(win, text= võistlejaB, foreground="white", background="black").grid(column=6, row=2)
+B=Label(win, text= võistlejaB, foreground="white", background="black", width= 20).grid(column=6, row=2)
 Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4) #Võistleja B
 Label(win, text = sum(teine), foreground="white", background="black").grid(row = 8, column = 4)
 
@@ -262,20 +255,26 @@ ridu= int(nuppe / 3) # i tsüklisse läheb 3 korda vähem kordi
 el = 0 # list(range(nuppe))
 print(el, ridu)
 
+nupu_fn={}
+
 for i in range(ridu):
     #print(ridu)
     for j in range(3):
         nuppu=b[c[el]]
-        print(nuppu)
-        sõnastikA[c[el]] = Button(win, text=c[el], height=h, width= r)
-        sõnastikA[c[el]].configure(command= lambda: nupp(nuppu, "a"))
+        print("nuppu: ", nuppu)
+        sõnastikA[c[el]] = Button(win, text=c[el], height=h, width= r, command = lambda nuppu=b[c[el]]:nupp(nuppu, "a"))
+ #       sõnastikA[c[el]].configure(command = lambda: nupp(nuppu, "a"))
+
         sõnastikA[c[el]].grid(column=j+ 1, row= i+5, pady=(2, 2), padx=(2, 2))
         print("EL -", el, "EL-1", el-1)
         
-        sõnastikB[c[el]] = Button(win, text=c[el], height=h, width= r)
-        print(sõnastikB[c[el]])
-        sõnastikB[c[el]].configure(command= lambda: nupp(nuppu, "b"))
-        sõnastikB[c[el]].grid(column=j+ 6, row= i+5, pady=(2, 2), padx=(2, 2))
+        sõnastikB[c[el]] = Button(win, text=c[el], height=h, width= r, command = lambda nuppu=b[c[el]]:nupp(nuppu, "b"))
+        print("nupu NIMI", c[el])
+        print("NUPPu", nuppu)
+ #       sõnastikB[c[el]].configure(command= lambda: nupp(nuppu, "b"))
+        
+        sõnastikB[c[el]].grid(column=j+6, row= i+5, pady=(2, 2), padx=(2, 2))
+ #       sõnastikB[c[el]].pack()
         #print(i, j)
         j +=1
         el+=1
@@ -283,7 +282,7 @@ for i in range(ridu):
 välju.configure(command=välju1)
 min.configure(command=miinus1)
 
-print("A-", sõnastikB, "B-",sõnastikA)
+print("nupu_fn", nupu_fn, "A-", sõnastikB, "B-",sõnastikA)
 
 
 
@@ -324,4 +323,6 @@ protokoll.close()
 ####nr += 1
 
 win.mainloop( )
+
+
 
