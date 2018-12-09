@@ -86,8 +86,24 @@ def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
     if A>=n_katseid and B>=n_katseid:
         print("A=", a, "teine=", teine)
  #       välju1()
+        loo_protokollid()
+        võitjad_listi()
         update()
-        
+
+def loo_protokollid():
+    summaA = sum(a)
+    summaB = sum(teine)
+    protokoll = open("protokollid.txt", "a", encoding="UTF-8")
+    #protokoll.write("\nHINDAMISLEHT NR: " + str(nr) +"\n") See peaks lõppu minema
+    #protokoll.write(str(kuupäev_kellaeg))
+    protokoll.write("\nVõistleja: " + võistlejaA + " Hinded: " + str(a)[1:-1])
+    protokoll.write("\nHinnete summa: " + str(summaA)+ "\n")
+    protokoll.write("\nVõistleja: " + võistlejaB + " Hinded: " + str(teine)[1:-1])
+    protokoll.write("\nHinnete summa: " + str(summaB)+ "\n")
+    #protokoll.write("\nMiinuseid kokku: " + str(miinused[i]))
+    #protokoll.write("\nHinne kokku " + str(summa - miinused[i]))
+    protokoll.close()
+    
         
 def uusRound():
     round = Tk()
@@ -109,7 +125,7 @@ def viimaneRound():
     #!!!!!!!!!!!!!!!!!!!!!!!!!! Siin tuleks teha veel I ROUND kohta protokoll :)
     # !!!!!!!!!!!!  lambdasse tuleks lisada fail, kus on võitjad -> võistlejad_failist("võistlejad.txt", viimane)
     
-    viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: võistlejad_failist("võistlejad.txt", viimane)).grid(column=6, row=3, pady=0, padx=0)
+    viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: uued_võistlejad(võistlejad, viimane)).grid(column=6, row=3, pady=0, padx=0)
 
 
 def võistlejad_failist(fail, viimane):
@@ -126,14 +142,29 @@ def võistlejad_failist(fail, viimane):
     update()
     viimane.destroy()
     
-       
+def uued_võistlejad(võistlejad, viimane):
+    global võistleja
+    global võitjad
+    global v
+    v=0
+    võistleja = võitjad
+    update()
+    viimane.destroy()
+    
+def võitjad_listi():
+    if sum(a) > sum(teine):
+        võitjad.append(võistlejaA)
+    else:
+        võitjad.append(võistlejaB)
+    return võitjad
     
 def update():
+    global võitjad
     global võistlejaA, võistlejaB
     global võistleja
     global a
-    a=[]             #VõistlejaA hinded
     global teine
+    a=[]             #VõistlejaA hinded
     teine=[]         #VõistlejaB hinded   
     global katseidA
     katseidA=[]
@@ -149,9 +180,12 @@ def update():
     miinused=[]
     global img2
     global img1
-
+    
     if len(võistleja)<=0:
-        return viimaneRound() # kui osalejad otsas tuleb uus round
+        viimaneRound() # kui osalejad otsas tuleb uus round
+    
+    elif len(võistleja)== 1:
+            kuuluta_võitja()
     else:
         uusRound()
         võistlejaA = võistleja.pop(v)
@@ -177,10 +211,17 @@ def update():
     
     
 def välju1():                     # rakendub kui katsete arv on täis
-    if a == []:                   # kui pole trikke, siis pannakse kõik 0
-        trikke()
-    hinded.append(a)              #lisab saadud hinded hined[] listi
-    miinused.append(sum(miinus))
+    win.destroy()
+    exit()
+def kuuluta_võitja():
+    kuulutus = Tk()
+    kuulutus.geometry("{0}x{1}".format(kuulutus.winfo_screenwidth(), kuulutus.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
+    kuulutus.title("Võitja selgunud!")
+    kuulutus.configure(background='black')
+    Label(kuulutus, text="Võitja on: " + võistleja[0] + "!", font=("hevetica", 42), foreground="white", background="black").grid(column=2, row=2, pady=100, padx=550)
+    välju_nupp = Button(kuulutus, text='OK', height=2, width= 20, command = välju1).grid(column=2, row=3, pady=0, padx=0)
+
+    
 def miinus1():
     miinus.append(int(1))
 def trikke():
@@ -194,8 +235,7 @@ ____________________________________________  Vaikeväärtused | kuupäev | kats
 kuupäev_kellaeg = datetime.today()
 kohtunik = "Registreerimata kohtunik"               #vaikeväärtus kohtunikul
 n_katseid = 1                                      #vaikeväärtus katsete arvul
-
-
+võitjad = []
 
 """
 ____________________________________________  1. aken ________  Siestus - Entry | Kohtunik  _____________________________________________________________
@@ -395,11 +435,11 @@ for i in range(ridu):
 ____________________________________________    Protokollid  ____________________________________________________________________
 """
 
-
-
-
-
-
+protokoll = open("protokollid.txt", "a", encoding="UTF-8")  #Sisestab protokolli faili kohtuniku nime
+protokoll.write("\n-------------------------------------\n")
+protokoll.write(str(kuupäev_kellaeg) + "\n")
+protokoll.write(("Hindamislehti täidab kohtunik: " + kohtunik) + "\n")
+protokoll.close()
 
 
 
