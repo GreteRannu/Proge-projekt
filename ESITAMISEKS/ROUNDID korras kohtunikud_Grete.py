@@ -38,7 +38,7 @@ def muuda_katseid():
         msgbox("Sisestus peab olema number!")
         n_katseid = int(enterbox(msg, title))
     else:
-        Label(win, text="Lubatud: "+str(n_katseid), foreground="white", background="black").grid(row=10, column=0, pady=(50, 0))
+        Label(win, text="Lubatud: "+str(n_katseid), foreground="white", background="black").grid(row=9, column=0, pady=(50, 0))
     n_katseid = int(n_katseid)
  
  
@@ -57,7 +57,7 @@ def nupp(nupp, voistleja):
     if voistleja == "b":
         teine.append(float(nupp))
         print("teine", teine, "a", a)
-        lisa_katse("b")           
+        lisa_katse("b")
             
 def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
     if kellele == "a":
@@ -66,10 +66,10 @@ def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
             "\n".join
             Label(win, text = len(a), foreground="white", background="black"). grid(row = 6, column = 0)
             #hetkel punkte
-        Label(win, text = sum(a), foreground="white", background="black") .grid(row = 8, column = 0)
+        Label(win, text = sum(a)-miinusedA.count(1), foreground="white", background="black") .grid(row = 8, column = 0)
         A=katseidA.count(1)
         B=katseidB.count(1)
-        if A>=n_katseid:
+        if A>=n_katseid or katkestasA == True: #Kui katseta arv on täis või võistleja katkestas
             for el in range(len(c)):
                 sõnastikA[c[el]].configure(command= lambda :None)
     if kellele == "b":
@@ -77,31 +77,61 @@ def lisa_katse(kellele):# def loendab katseid kuni n_katseid-meni ja
         for el in teine:
             "\n".join
             Label(win, text = len(teine), foreground="white", background="black"). grid(row = 6, column = 4)
-        Label(win, text = sum(teine), foreground="white", background="black") .grid(row = 8, column = 4)
+        Label(win, text = sum(teine)-miinusedB.count(1), foreground="white", background="black") .grid(row = 8, column = 4)
         A=katseidA.count(1)
         B=katseidB.count(1)
-        if B>=n_katseid:
+        if B>=n_katseid or katkestasB == True:  #Kui katseta arv on täis või võistleja katkestas
             for el in range(len(c)):
                 sõnastikB[c[el]].configure(command= lambda: None)
+    kas_vooru_lõpp()
+        
+def kas_vooru_lõpp(): #Lühendamiseks, need read olid nii katkestus() kui lisa_katse() all
+    global katkestasA
+    global katkestasB
+    A=katseidA.count(1)
+    B=katseidB.count(1)
     if A>=n_katseid and B>=n_katseid:
         print("A=", a, "teine=", teine)
- #       välju1()
         loo_protokollid()
         võitjad_listi()
         update()
+    elif A>=n_katseid and katkestasB == True: #Kui üks võistlejatest katkestab
+        print("A=", a, "teine=", teine)
+        loo_protokollid()
+        võitjad_listi()
+        update()
+    elif katkestasA == True and B>=n_katseid:
+        print("A=", a, "teine=", teine)
+        loo_protokollid()
+        võitjad_listi()
+        update()
+    elif katkestasA == True and katkestasB == True: #Kui mõlemad võistlejad katkestavad
+        print("A=", a, "teine=", teine)
+        loo_protokollid()
+        võitjad_listi()
+        update()
+    else:
+        pass
 
 def loo_protokollid():
     summaA = sum(a)
     summaB = sum(teine)
     protokoll = open("protokollid.txt", "a", encoding="UTF-8")
-    #protokoll.write("\nHINDAMISLEHT NR: " + str(nr) +"\n") See peaks lõppu minema
-    #protokoll.write(str(kuupäev_kellaeg))
-    protokoll.write("\nVõistleja: " + võistlejaA + " Hinded: " + str(a)[1:-1])
-    protokoll.write("\nHinnete summa: " + str(summaA)+ "\n")
-    protokoll.write("\nVõistleja: " + võistlejaB + " Hinded: " + str(teine)[1:-1])
-    protokoll.write("\nHinnete summa: " + str(summaB)+ "\n")
-    #protokoll.write("\nMiinuseid kokku: " + str(miinused[i]))
-    #protokoll.write("\nHinne kokku " + str(summa - miinused[i]))
+    if katkestasA == True:
+        protokoll.write("\nVõistleja: " + võistlejaA + ": Katkestas \n")
+    else:
+        protokoll.write("\nVõistleja: " + võistlejaA + " Hinded: " + str(a)[1:-1])
+        protokoll.write("\nHinnete summa: " + str(summaA))
+        protokoll.write("\nMiinuseid kokku: " + str(miinusedA.count(1)))
+        protokoll.write("\nHinne kokku " + str(summaA - miinusedA.count(1))+ "\n")
+        
+    if katkestasB == True:
+        protokoll.write("\nVõistleja: " + võistlejaB + ": Katkestas \n")
+    else:
+        protokoll.write("\nVõistleja: " + võistlejaB + " Hinded: " + str(teine)[1:-1])
+        protokoll.write("\nHinnete summa: " + str(summaB))
+        protokoll.write("\nMiinuseid kokku: " + str(miinusedB.count(1)))
+        protokoll.write("\nHinne kokku " + str(summaB - miinusedB.count(1))+ "\n")
     protokoll.close()
     
         
@@ -126,7 +156,9 @@ def viimaneRound():
     # !!!!!!!!!!!!  lambdasse tuleks lisada fail, kus on võitjad -> võistlejad_failist("võistlejad.txt", viimane)
     
     viimase_round_nupp1 = Button(viimane, text='ALUSTA uut roundi', height=2, width= 20, command = lambda: uued_võistlejad(võistlejad, viimane)).grid(column=6, row=3, pady=0, padx=0)
-
+    protokoll = open("protokollid.txt", "a", encoding="UTF-8")
+    protokoll.write("\nUus round-----\n")
+    protokoll.close()
 
 def võistlejad_failist(fail, viimane):
     global võistleja
@@ -152,7 +184,7 @@ def uued_võistlejad(võistlejad, viimane):
     viimane.destroy()
     
 def võitjad_listi():
-    if sum(a) > sum(teine):
+    if sum(a)-miinusedA.count(1) > sum(teine)-miinusedB.count(1):
         võitjad.append(võistlejaA)
     else:
         võitjad.append(võistlejaB)
@@ -170,16 +202,18 @@ def update():
     katseidA=[]
     global katseidB
     katseidB=[]
-    global miinus
-    miinus=[]
+    global miinusedA, miinusedB
+    miinusedA=[]
+    miinusedB=[]
     global i
     i=0 
     global hinded
     hinded=[]
-    global miinused
-    miinused=[]
     global img2
     global img1
+    global katkestasA, katkestasB
+    katkestasA = False
+    katkestasB = False
     
     if len(võistleja)<=0:
         viimaneRound() # kui osalejad otsas tuleb uus round
@@ -213,6 +247,7 @@ def update():
 def välju1():                     # rakendub kui katsete arv on täis
     win.destroy()
     exit()
+    
 def kuuluta_võitja():
     kuulutus = Tk()
     kuulutus.geometry("{0}x{1}".format(kuulutus.winfo_screenwidth(), kuulutus.winfo_screenheight())) #siin saab muuta hindamisel kasutatava ekraani mõõtmeid
@@ -220,10 +255,27 @@ def kuuluta_võitja():
     kuulutus.configure(background='black')
     Label(kuulutus, text="Võitja on: " + võistleja[0] + "!", font=("hevetica", 42), foreground="white", background="black").grid(column=2, row=2, pady=100, padx=550)
     välju_nupp = Button(kuulutus, text='OK', height=2, width= 20, command = välju1).grid(column=2, row=3, pady=0, padx=0)
-
     
-def miinus1():
-    miinus.append(int(1))
+def miinus1(kellele):
+    if kellele == "a":
+        miinusedA.append(int(1))
+        Label(win, text = sum(a)-miinusedA.count(1), foreground="white", background="black") .grid(row = 8, column = 0)
+    elif kellele == "b":
+        miinusedB.append(int(1))
+        Label(win, text = sum(teine)-miinusedB.count(1), foreground="white", background="black") .grid(row = 8, column = 4)
+        
+def katkestus(kellele):
+    global katkestasA
+    global katkestasB
+    global a, teine
+    if kellele == "a":
+        katkestasA = True
+        a = []
+    elif kellele == "b":
+        katkestasB = True
+        teine = []
+    kas_vooru_lõpp()
+
 def trikke():
     a.append(0.0)
     hinded.append(a)
@@ -234,8 +286,9 @@ ____________________________________________  Vaikeväärtused | kuupäev | kats
 
 kuupäev_kellaeg = datetime.today()
 kohtunik = "Registreerimata kohtunik"               #vaikeväärtus kohtunikul
-n_katseid = 1                                      #vaikeväärtus katsete arvul
-võitjad = []
+n_katseid = 1 #vaikeväärtus katsete arvul
+katkestasA = False
+katkestasB = False
 
 """
 ____________________________________________  1. aken ________  Siestus - Entry | Kohtunik  _____________________________________________________________
@@ -298,9 +351,10 @@ teine=[]                #VõistlejaB hinded
 katseidA=[]
 katseidB=[]
 
-miinus=[]
 hinded=[]
-miinused=[]
+miinusedA=[]
+miinusedB=[]
+võitjad = []
 
 h=3                    #nuppude kõrgus
 i=0                    #index listist lugemiseks (nt c)
@@ -344,10 +398,11 @@ Label(win, text = sum(a), foreground="white", background="black").grid(row = 8, 
 
 välju= Button(win, text='KATKESTAS', height= h-1, width= 10) #Võistleja A
 välju.grid(row=3, column=0, pady=(2, 2), padx=(2, 2))
+välju.configure(command= lambda: katkestus("a"))
 
 min = Button(win, text=' LISA -1 ', height= h-1, width= 10)
 min.grid(row=4, column=0, pady=(2, 2), padx=(2, 2))
-
+min.configure(command= lambda: miinus1("a"))
 
 """
 __________________________________________________    Võistleja    B   ____________________________________________________
@@ -363,23 +418,18 @@ Label(win, text = sum(teine), foreground="white", background="black").grid(row =
 
 välju= Button(win, text='KATKESTAS', height= h-1, width= 10)# Võistleja B
 välju.grid(row=3, column=4, pady=(2, 2), padx=(2, 2))
+välju.configure(command= lambda: katkestus("b"))
 
 min = Button(win, text=' LISA -1 ', height= h-1, width= 10)
 min.grid(row=4, column=4, pady=(2, 2), padx=(2, 2))
-
-
-
+min.configure(command= lambda: miinus1("b"))
 
 """
-__________________________________________ Muud nupud | Muuda katsete arv|  Välju command |  Miinus command _____________________________________________________________
+__________________________________________ Muud nupud | Muuda katsete arv| Uue roundi nupp _________________________________________________________________
 """
 
 Label(win, text="Lubatud: "+str(n_katseid), foreground="white", background="black").grid(row=9, column=0, pady=(50, 0)) #N;itab lubatud katsete arvu 2 aknas
 sisestus2 = Button(win, text="Muuda", width=10, command = lambda: muuda_katseid()).grid(row=10, column=0, pady=(0, 0))
-
-välju.configure(command=välju1)
-
-min.configure(command=miinus1)
 
 uusRoundNupp = Button(win, text = 'Uus round', height = h-1, width = 10)
 uusRoundNupp.grid(row=10, column=9)
@@ -437,9 +487,10 @@ ____________________________________________    Protokollid  ___________________
 
 protokoll = open("protokollid.txt", "a", encoding="UTF-8")  #Sisestab protokolli faili kohtuniku nime
 protokoll.write("\n-------------------------------------\n")
-protokoll.write(str(kuupäev_kellaeg) + "\n")
 protokoll.write(("Hindamislehti täidab kohtunik: " + kohtunik) + "\n")
+protokoll.write(str(kuupäev_kellaeg) + "\n")
 protokoll.close()
+
 
 
 
